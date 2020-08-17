@@ -1,0 +1,22 @@
+{
+  "name": "projeto01",
+  "version": "1.0.0",
+  "description": "My first app using Vue.js!",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jmarcoos27/firstVueProject.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jmarcoos27/firstVueProject/issues"
+  },
+  "homepage": "https://github.com/Jmarcoos27/firstVueProject#readme",
+  "devDependencies": {
+    "http-server": "^0.12.3"
+  }
+}
