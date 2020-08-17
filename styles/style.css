@@ -1,0 +1,30 @@
+#app {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 24px;
+}   
+#div-principal{
+    display: flex;
+    flex-direction: row;
+    flex: 1 0 auto;
+    justify-content: center; 
+}
+.div-personagem {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px
+}
+.div-barra-progresso{
+    width: 100%;
+}
+.span-personagem {
+    padding-bottom: 10px;
+    font-size: 18pt;
+    font-weight: 500;
+}    
