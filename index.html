@@ -2,19 +2,19 @@
 <script src="http://unpkg.com/vue"></script>
 <link rel="stylesheet" href="./styles/style.css">
 
-<div id="app">    
+<div id="app">        
     <div class="card w-100" >
         <div id="div-principal" class="card-body">
             <div id="div-jogador" class="div-personagem">
                 <span class="span-personagem">Jogador</span>
                 <div class="div-barra-progresso">
-                    <div class="progress-bar w-100">100%</div>
+                    <div class="progress-bar" :style="{width: jogador.vida + '%'}">{{jogador.vida}}%</div>
                 </div>           
             </div>
             <div id="div-monstro" class="div-personagem">
                 <span class="span-personagem">Monstro</span>
                 <div class="div-barra-progresso">
-                    <div class="progress-bar w-100">100%</div>
+                    <div class="progress-bar" :style="{width: monstro.vida + '%'}">{{monstro.vida}}%</div>
                 </div>         
             </div>
         </div>
@@ -22,20 +22,24 @@
     <div class="card w-100">
         <div id="div-principal" class="card-body">
             <div id="botoes-acoes-jogando" v-if="jogando">
-                <button  class="btn btn-danger">Ataque</button>
-                <button class="btn btn-warning"> Ataque especial</button>
-                <button class="btn btn-success">Cura</button>
+                <button  class="btn btn-danger" @click="atacar">Ataque</button>
+                <button class="btn btn-warning" @click="ataqueEspecial">Ataque especial</button>
+                <button class="btn btn-success" @click="curar">Cura</button>
                 <button class="btn btn-secondary" @click="desistir">Desistir</button>                
             </div>
             <div v-else>
+                <p v-if="mensagemFimJogo">{{mensagemFimJogo}}</p>                
                 <button class="btn btn-primary" @click="iniciarJogo">Iniciar novo jogo</button>
             </div>
         </div>
     </div>  
     <div class="card w-100" id="div-log">
-        <div class="card-body" >
-            <div class="alert alert-primary text-center text-uppercase font-weight-bold" >Jogador atingiu monstro com 10.</div>
-            <div class="alert alert-danger text-center text-uppercase font-weight-bold">Monstro atingiu jogador com 10.</div>
+        <div class="card-body" v-if="logs.length">
+            <div v-for="log in logs" :key="log.descricao"
+                     class="alert text-center text-uppercase font-weight-bold" 
+                    :class="{'alert-danger': log.tipo === 'monstro', 'alert-primary': log.tipo === 'jogador' }">
+                    {{log.descricao}}
+            </div>            
         </div>
     </div>
 </div>
