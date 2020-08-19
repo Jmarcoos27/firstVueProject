@@ -23,8 +23,8 @@
         <div id="div-principal" class="card-body">
             <div id="botoes-acoes-jogando" v-if="jogando">
                 <button  class="btn btn-danger" @click="atacar">Ataque</button>
-                <button class="btn btn-warning" @click="ataqueEspecial">Ataque especial</button>
-                <button class="btn btn-success" @click="curar">Cura</button>
+                <button class="btn btn-warning"  @click="ataqueEspecial">Ataque especial</button>
+                <button class="btn btn-success" :disabled="jogador.vida === 100" @click="curar">Cura</button>
                 <button class="btn btn-secondary" @click="desistir">Desistir</button>                
             </div>
             <div v-else>
@@ -33,11 +33,11 @@
             </div>
         </div>
     </div>  
-    <div class="card w-100" id="div-log">
+    <div class="card w-100 h-50" id="div-log">
         <div class="card-body" v-if="logs.length">
             <div v-for="log in logs" :key="log.descricao"
                      class="alert text-center text-uppercase font-weight-bold" 
-                    :class="{'alert-danger': log.tipo === 'monstro', 'alert-primary': log.tipo === 'jogador' }">
+                    :class="{'alert-danger': log.tipo === 'monstro', 'alert-primary': log.tipo === 'jogador', 'alert-success': log.tipo === 'cura' }">
                     {{log.descricao}}
             </div>            
         </div>

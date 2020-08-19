@@ -17,39 +17,49 @@ var app = new Vue({
     methods: {        
         iniciarJogo() {
             this.jogando = true;            
-            this._resetarStatusPersonagens();
+            this._resetarJogo();
         },
         desistir() {
             this.jogando = false;
-            this._resetarStatusPersonagens();
+            this._resetarJogo();
         },
         atacar() {
-            let atkJogador = this._geraAtaque(this.jogador.ataque);
-            let atkMonstro = this._geraAtaque(this.monstro.ataque);
+             this._realizarAtaquejogador(this._geraAtaque(this.jogador.ataque));
+            this._realizarAtaqueMonstro();            
 
-            this.monstro.vida -= atkJogador;            
-            this._adicionarLog(`Monstro atacou jogador com ${atkMonstro}.`, 'monstro');
-
-            this.jogador.vida -= atkMonstro;            
-            this._adicionarLog(`Jogador atacou monstro com ${atkJogador}.`, 'jogador');
-
-            if(this._determinarFimDeJogo()){
+            if(this._verificarFimDeJogo()){
                 this.jogando = false;
                 this.mensagemFimJogo = this._retornaGanhador();
             }
                         
         },
         ataqueEspecial() {
-            
+            this._realizarAtaquejogador(this._geraAtaque(this.jogador.ataque + 3));
+            this._realizarAtaqueMonstro();
+            this._verificarFimDeJogo();
+
         },
+
         curar() {
-            this.jogador.vida += (Math.random * 100);
+            const quantidadeCura = this._geraCura();
+
+            if(this.jogador.vida != 100)
+                this.jogador.vida += quantidadeCura;
+
+            this._adicionarLog(`Jogador se curou em ${quantidadeCura}.`, 'cura');
+            
+            this._realizarAtaqueMonstro();                       
+            this._verificarFimDeJogo();
         },
-        _resetarStatusPersonagens() {
+
+
+        _resetarJogo() {
             this.monstro.vida = 100;
             this.jogador.vida = 100;
+            this.mensagemFimJogo = '';
             this.logs = [];
         },
+
         _adicionarLog(mensagem, tipo){
             this.logs.push({descricao: mensagem, tipo: tipo});
         },
@@ -57,11 +67,32 @@ var app = new Vue({
         _geraAtaque(ataque){
             return Math.round(Math.random()) + ataque;
         },
-        _determinarFimDeJogo(){
-            return this.jogador.vida <= 0 || this.monstro.vida <= 0;  
+
+        _geraCura(){
+           return Math.round(Math.random()) + (this.jogador.ataque + 3);
+        },
+
+        _verificarFimDeJogo(){
+            if(this.jogador.vida <= 0 || this.monstro.vida <= 0){
+                this.jogando = false;
+                this.mensagemFimJogo = this._retornaGanhador();
+                return;
+            }
+            return;  
         },
         _retornaGanhador(){
-            return this.jogador.vida <= 0 ? 'Voce perdeu o jogo!' : 'Voce venceu!!'
+            return this.jogador.vida <= 0 ? 'Monstro venceu!!' : 'Jogador venceu!!'
+        },
+
+        _realizarAtaquejogador(ataque){
+            this.monstro.vida -= ataque;            
+            this._adicionarLog(`Jogador atacou monstro com ${ataque}.`, 'jogador');
+        },
+
+        _realizarAtaqueMonstro(){
+            const ataque = this._geraAtaque(this.monstro.ataque);
+            this.jogador.vida -= ataque;
+            this._adicionarLog(`Monstro atacou jogador com ${ataque}.`, 'monstro');
         }
     },
     
